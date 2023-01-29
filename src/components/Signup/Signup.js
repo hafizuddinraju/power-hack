@@ -1,27 +1,31 @@
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from "react-icons/hi";
 import '../Login/Login.css'
-import login_validate, { registerValidate } from '../Login/validate';
+import { registerValidate } from '../Login/validate';
+
+import { saveUserMongodb } from '../AllFunction/MongoF';
 
 
 const Signup = () => {
+    const navigate = useNavigate()
     const [show, setShow] = useState({ password: false, cpassword: false })
     const formik = useFormik({
         initialValues: {
             username : '',
             email: '',
-            role:'user',
             password: '',
             cpassword: ''
         },
         validate: registerValidate,
         onSubmit
     })
-    async function onSubmit(values){
+     function onSubmit(values){
         
-        
+        saveUserMongodb(values.username, values.email, values.password)
+        navigate('/login')
+      
     }
     return (
         <>

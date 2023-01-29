@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Context/AuthContext";
 
 const Navbar = () => {
+  const {user,logout} = useContext(AuthContext)
+  console.log(user);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -20,9 +23,11 @@ const Navbar = () => {
             </span>
           </Link>
           <ul className="flex items-center hidden space-x-8 lg:flex">
+            {user && user.email?
+            <>
             <li>
               <Link
-                to="/"
+                to="/bill"
                 aria-label="Bill"
                 title="Bill"
                 className="font-medium tracking-wide text-gray-900 transition-colors duration-200 hover:text-teal-accent-400"
@@ -40,6 +45,20 @@ const Navbar = () => {
                 DashBoard
               </Link>
             </li>
+            <li onClick={()=>logout()}>
+              <Link
+                to="/"
+                className="inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-red-400 hover:bg-red-600 focus:shadow-outline focus:outline-none"
+                aria-label="Sign up"
+                title="Logout"
+              >
+                Logout
+              </Link>
+            </li>
+            
+            </>
+            :
+            <>
             <li>
               <Link
                 to="/login"
@@ -60,6 +79,14 @@ const Navbar = () => {
                 Sign up
               </Link>
             </li>
+            
+            
+            </>
+            
+          }
+            
+            
+            
           </ul>
           <div className="lg:hidden">
             <button

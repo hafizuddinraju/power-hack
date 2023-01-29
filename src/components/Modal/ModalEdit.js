@@ -1,46 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../Context/AuthContext";
 
-const Modal = ({ modal, setmodal }) => {
+const ModalEdit = ({ modal, setmodal, loading, setLoading }) => {
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const todayTime = new Date();
-  function generateId() {
-    return Math.random().toString(36).substr(2, 9);
-  }
 
-  const handleBooking = async (event) => {
+  const handleEdit = async (event) => {
     event.preventDefault();
     const form = event.target;
     const price = form.price.value;
     const phone = form.phone.value;
 
     const payment = {
-      billing_Id: generateId(),
-      name: modal?.name,
-      email: modal?.email,
       bill: price,
       phone: phone,
       time: todayTime,
     };
-    const response = await fetch(
-      "https://server-power.vercel.app/api/add-billing",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payment),
-      }
-    );
-    const result = await response.json();
-    if (result) {
-      toast.success(result.message, { autoClose: 500 });
-      navigate("/dashboard");
-    } else {
-      toast.error("payment Failed", { autoClose: 500 });
-    }
+    fetch(`https://server-power.vercel.app/api/update-billing/${modal._id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payment),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setLoading(!loading);
+        toast.success("Update Successfull", { autoClose: 500 });
+        navigate("/dashboard");
+      });
   };
   return (
     <>
@@ -53,36 +46,34 @@ const Modal = ({ modal, setmodal }) => {
           >
             ✕
           </label>
-          <h3 className="text-lg font-bold">Make A Payment</h3>
-          <form
-            onSubmit={handleBooking}
-            className="grid grid-cols-1 gap-3 mt-10"
-          >
+          <h3 className="text-lg font-bold">Make A Payment Update</h3>
+          <form onSubmit={handleEdit} className="grid grid-cols-1 gap-3 mt-10">
             <input
               type="text"
               readOnly
-              defaultValue={modal?.name}
-              className="input text-gray-800  w-full input-bordered "
+              disabled
+              defaultValue={user?.name}
+              className="input text-gray-900  w-full input-bordered "
             />
             <input
               type="email"
               readOnly
-              defaultValue={modal?.email}
-              className="input text-gray-800  w-full input-bordered "
+              disabled
+              defaultValue={user?.email}
+              className="input text-gray-900  w-full input-bordered "
             />
 
             <input
               name="price"
               type="number"
-              required
-              placeholder="Payment Amount"
+              defaultValue={modal.bill}
               className="input w-full text-gray-800 input-bordered"
             />
             <input
               required
               name="phone"
               type="number"
-              placeholder="Phone Number"
+              defaultValue={modal?.phone}
               className="input text-gray-800 w-full input-bordered"
             />
 
@@ -101,4 +92,4 @@ const Modal = ({ modal, setmodal }) => {
   );
 };
 
-export default Modal;
+export default ModalEdit;

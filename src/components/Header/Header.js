@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../Context/AuthContext';
 import Modal from '../Modal/Modal';
 
  const Header = () => {
+  const {user} = useContext(AuthContext)
     const [modal, setModal] = useState({});
     return (
       <div className="relative h-screen">
@@ -17,6 +19,7 @@ import Modal from '../Modal/Modal';
             <label
                       htmlFor="booking-modal" 
                       className="inline-flex items-center justify-center w-[400px] h-10 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-sky-500 hover:bg-sky-600 focus:shadow-outline focus:outline-none"
+                      onClick={() => setModal(user)}
                     >
                       Make A Payment
                     </label>
