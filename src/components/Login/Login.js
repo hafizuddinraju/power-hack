@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import React, { useContext, useState } from "react";
 import { HiAtSymbol, HiFingerPrint } from "react-icons/hi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import ApiToken from "../../ApiToken/ApiToken";
 import { AuthContext } from "../../Context/AuthContext";
 import "./Login.css";
@@ -41,7 +42,7 @@ const Login = () => {
       console.log(result);
       setSignIn(!signIn);
     } else {
-      console.log("Login Failed");
+      toast.error(result.message, { autoClose: 500 });
     }
   }
   return (

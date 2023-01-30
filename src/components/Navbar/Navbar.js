@@ -144,47 +144,68 @@ const Navbar = () => {
                     </div>
                   </div>
                   <nav>
-                    <ul className="space-y-4 text-center  z-10">
-                      <li>
-                        <Link
-                          to="/"
-                          aria-label="Bill"
-                          title="Bill"
-                          className="font-medium tracking-wide text-gray-800 transition-colors duration-200 hover:text-teal-accent-400"
-                        >
-                          Bill
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/"
-                          aria-label="DashBoard"
-                          title="DashBoard"
-                          className="font-medium tracking-wide text-gray-800 transition-colors duration-200 hover:text-teal-accent-400"
-                        >
-                          DashBoard
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/"
-                          className="inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-sky-400 hover:bg-sky-700 focus:shadow-outline focus:outline-none"
-                          aria-label="Login"
-                          title="Login"
-                        >
-                          Login
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/signup"
-                          className="inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-sky-400 hover:bg-sky-700 focus:shadow-outline focus:outline-none"
-                          aria-label="Sign up"
-                          title="Sign up"
-                        >
-                          Sign up
-                        </Link>
-                      </li>
+                    <ul className="space-y-4 text-center  z-20">
+                    {user && user.email?
+            <>
+            <li>
+              <Link
+                to="/bill"
+                aria-label="Bill"
+                title="Bill"
+                className="font-medium tracking-wide text-gray-900 transition-colors duration-200 hover:text-teal-accent-400"
+              >
+                Bill
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/dashboard"
+                aria-label="DashBoard"
+                title="DashBoard"
+                className="font-medium tracking-wide text-gray-900 transition-colors duration-200 hover:text-teal-accent-400"
+              >
+                DashBoard
+              </Link>
+            </li>
+            <li onClick={()=>logout()}>
+              <Link
+                to="/"
+                className="inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-red-400 hover:bg-red-600 focus:shadow-outline focus:outline-none"
+                aria-label="Sign up"
+                title="Logout"
+              >
+                Logout
+              </Link>
+            </li>
+            
+            </>
+            :
+            <>
+            <li>
+              <Link
+                to="/login"
+                className="inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-sky-400 hover:bg-sky-700 focus:shadow-outline focus:outline-none"
+                aria-label="Login"
+                title="Login"
+              >
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/signup"
+                className="inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-sky-400 hover:bg-sky-700 focus:shadow-outline focus:outline-none"
+                aria-label="Sign up"
+                title="Sign up"
+              >
+                Sign up
+              </Link>
+            </li>
+            
+            
+            </>
+            
+          }
                     </ul>
                   </nav>
                 </div>

@@ -18,6 +18,7 @@ const Dashboard = () => {
   console.log(serchData);
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
+
   useEffect(() => {
     const url = `https://server-power.vercel.app/api/billing-list?page=${page}&size=${size}&q=${serchData}`;
 
@@ -45,6 +46,11 @@ const Dashboard = () => {
         }
       });
   };
+  let total = 0;
+  for (let dataValue of paymentData) {
+    total = total + parseInt(dataValue.bill);
+  }
+
   if (!paymentData) {
     return <Spinner></Spinner>;
   }
@@ -59,6 +65,7 @@ const Dashboard = () => {
             type="text"
             placeholder="Search"
           />
+
           <div className="searchbtn">
             <img
               src="https://i.ibb.co/1mvyLPD/Untitled-design-28.png"
@@ -67,7 +74,7 @@ const Dashboard = () => {
             />
           </div>
         </div>
-
+        <div className="text-xl font-bold">Paid Total Amount : {total}</div>
         <div className="message">
           <div className="circle"></div>
           <img src="https://i.ibb.co/qs4QtHf/8.png" className="icn" alt="" />
